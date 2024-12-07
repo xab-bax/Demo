@@ -1,0 +1,102 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  </head>
+  <body>
+    <a-scene
+      mindar-image="imageTargetSrc: https://raw.githubusercontent.com/xab-bax/Demo/main/earthTarget.mind;"
+      color-space="sRGB"
+      renderer="colorManagement: true, physicallyCorrectLights"
+      vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false"
+    >
+      <a-assets>
+        <img id="card" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.png" />
+        <a-asset-item id="avatarModel" src="https://raw.githubusercontent.com/xab-bax/Demo/main/burger_realistic_gltf/scene.gltf"></a-asset-item>
+        <!-- Video Asset -->
+        <video
+          id="video"
+          src="https://raw.githubusercontent.com/xab-bax/Demo/main/SolarPowerPlantVideo.mp4"
+          loop="true"
+          crossOrigin="anonymous"
+        ></video>
+      </a-assets>
+
+      <!-- Camera -->
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+      <!-- Main Image Target -->
+      <a-entity mindar-image-target="targetIndex: 0">
+        <!-- Plane with Card -->
+        <a-plane
+          src="#card"
+          position="0 0 0"
+          height="1"
+          width="0.5"
+          rotation="0 0 90"
+        ></a-plane>
+
+        <!-- 3D Model -->
+        <a-gltf-model
+          rotation="90 0 0"
+          position="0 0 0.1"
+          scale="0.1 0.1 0.1"
+          src="#avatarModel"
+        ></a-gltf-model>
+
+        <!-- Video Plane -->
+        <a-video
+          id="video-plane"
+          src="#video"
+          position="-1.2 0 0"
+          width="1"
+          height="0.5"
+          rotation="0 0 0"
+          visible="false"
+        ></a-video>
+      </a-entity>
+    </a-scene>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const video = document.querySelector("#video");
+        const videoPlane = document.querySelector("#video-plane");
+        let userInteracted = false; // Tracks if the user interacted to allow audio
+        let isTargetVisible = false; // Tracks if the image target is visible
+
+        // Handle user interaction to enable audio
+        const enableAudio = () => {
+          userInteracted = true; // Mark that the user has interacted
+          video.muted = false; // Unmute the video
+        };
+
+        // Listen for user interaction on the page
+        document.body.addEventListener("click", enableAudio, { once: true });
+        document.body.addEventListener("touchstart", enableAudio, { once: true });
+
+        // When the image target is found, play the video
+        const imageTarget = document.querySelector("[mindar-image-target]");
+        imageTarget.addEventListener("targetFound", () => {
+          isTargetVisible = true; // Mark the target as visible
+          videoPlane.setAttribute("visible", "true"); // Show the video plane
+
+          if (userInteracted) {
+            video.play(); // Play the video with audio
+          } else {
+            video.muted = true; // Play muted if no interaction yet
+            video.play();
+          }
+        });
+
+        // When the image target is lost, pause the video
+        imageTarget.addEventListener("targetLost", () => {
+          isTargetVisible = false; // Mark the target as not visible
+          videoPlane.setAttribute("visible", "false"); // Hide the video plane
+          video.pause(); // Pause the video
+        });
+      });
+    </script>
+  </body>
+</html>
