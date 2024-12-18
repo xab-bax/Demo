@@ -40,68 +40,150 @@
       <!-- Camera -->
       <a-camera mindar-image-camera="maxVideoResolution: true"></a-camera>
 
-      <!-- Image Target 1 (Burger) -->
-      <a-entity mindar-image-target="targetIndex: 0">
-        <a-gltf-model
-          src="#burger-model"
-          position="0 0 0"
-          scale="0.15 0.15 0.15"
-          rotation="90 0 0"
-        ></a-gltf-model>
+      <!-- Models (initial default settings) -->
+      <a-entity id="burger" mindar-image-target="targetIndex: 0">
+        <a-gltf-model src="#burger-model"></a-gltf-model>
       </a-entity>
 
-      <!-- Image Target 2 (Noodle) -->
-      <a-entity mindar-image-target="targetIndex: 1">
-        <a-gltf-model
-          src="#noodle-model"
-          position="0 0 0"
-          scale="4 4 4"
-          rotation="90 0 0"
-        ></a-gltf-model>
+      <a-entity id="noodle" mindar-image-target="targetIndex: 1">
+        <a-gltf-model src="#noodle-model"></a-gltf-model>
       </a-entity>
 
-      <!-- Image Target 3 (Pasta Bowl) -->
-      <a-entity mindar-image-target="targetIndex: 2">
-        <a-gltf-model
-          src="#pasta-model"
-          position="0 0 0"
-          scale="0.7 0.7 0.7"
-          rotation="90 0 0"
-        ></a-gltf-model>
+      <a-entity id="pasta" mindar-image-target="targetIndex: 2">
+        <a-gltf-model src="#pasta-model"></a-gltf-model>
       </a-entity>
 
-      <!-- Image Target 4 (Pizza) -->
-      <a-entity mindar-image-target="targetIndex: 3">
-        <a-gltf-model
-          src="#pizza-model"
-          position="0 0 0"
-          scale="1.5 1.5 1.5"
-          rotation="90 0 0"
-        ></a-gltf-model>
+      <a-entity id="pizza" mindar-image-target="targetIndex: 3">
+        <a-gltf-model src="#pizza-model"></a-gltf-model>
       </a-entity>
 
-      <!-- Image Target 5 (Thali) -->
-      <a-entity mindar-image-target="targetIndex: 4">
-        <a-gltf-model
-          src="#thali-model"
-          position="-0.2 0.8 0"
-          scale="25 25 25"
-          rotation="90 0 0"
-        ></a-gltf-model>
+      <a-entity id="thali" mindar-image-target="targetIndex: 4">
+        <a-gltf-model src="#thali-model"></a-gltf-model>
       </a-entity>
     </a-scene>
 
     <!-- Fallback for Unsupported Devices -->
     <script>
-      // Check WebGL Compatibility
-      if (!WEBGL.isWebGLAvailable()) {
-        alert("Your browser does not support WebGL. Please use a modern browser like Chrome, Edge, or Brave.");
-      }
-
-      // Check WebXR Support
-      if (!navigator.xr) {
-        alert("Your browser does not support WebXR. Please try another browser with WebXR enabled.");
-      }
-    </script>
+        // Function to detect the browser
+        function getBrowser() {
+          const userAgent = navigator.userAgent;
+      
+          // Determine the browser based on the user agent string
+          if (userAgent.includes("Brave")) {
+            return "brave";
+          } else if (userAgent.includes("Chrome") && !userAgent.includes("Edg")) {
+            return "chrome";
+          } else if (userAgent.includes("Edg")) {
+            return "edge";
+          } else if (userAgent.includes("Opera") || userAgent.includes("OPR")) {
+            return "opera";
+          } else if (userAgent.includes("Firefox")) {
+            return "firefox";
+          }
+          return "unknown";
+        }
+      
+        // Apply browser-specific scaling, positioning, and rotation
+        const browser = getBrowser();
+        
+        // Log the detected browser to the console
+        console.log("Detected Browser:", browser);
+      
+        document.addEventListener("DOMContentLoaded", () => {
+          const burger = document.querySelector("#burger a-gltf-model");
+          const noodle = document.querySelector("#noodle a-gltf-model");
+          const pasta = document.querySelector("#pasta a-gltf-model");
+          const pizza = document.querySelector("#pizza a-gltf-model");
+          const thali = document.querySelector("#thali a-gltf-model");
+      
+          if (browser === "brave") {
+            console.log("Applying settings for Brave browser");
+            burger.setAttribute("position", "0 0 0");
+            burger.setAttribute("scale", "0.15 0.15 0.15");
+            burger.setAttribute("rotation", "90 0 0");
+      
+            noodle.setAttribute("position", "0 0 0");
+            noodle.setAttribute("scale", "4 4 4");
+            noodle.setAttribute("rotation", "90 0 0");
+      
+            pasta.setAttribute("position", "0 0 0");
+            pasta.setAttribute("scale", ".7 .7 .7");
+            pasta.setAttribute("rotation", "90 0 0");
+      
+            pizza.setAttribute("position", "0 0 0");
+            pizza.setAttribute("scale", "1.5 1.5 1.5");
+            pizza.setAttribute("rotation", "90 0 0");
+      
+            thali.setAttribute("position", "-0.2 0.8 0");
+            thali.setAttribute("scale", "25 25 25");
+            thali.setAttribute("rotation", "90 0 0");
+          } else if (browser === "chrome") {
+            console.log("Applying settings for Chrome browser");
+            burger.setAttribute("position", "0 0 0");
+            burger.setAttribute("scale", "0.15 0.15 0.15");
+            burger.setAttribute("rotation", "90 0 0");
+      
+            noodle.setAttribute("position", "0 0. 0");
+            noodle.setAttribute("scale", "4 4 4");
+            noodle.setAttribute("rotation", "90 0 0");
+      
+            pasta.setAttribute("position", "0 0 0");
+            pasta.setAttribute("scale", ".7 .7 .7");
+            pasta.setAttribute("rotation", "90 0 0");
+      
+            pizza.setAttribute("position", "0 0 0");
+            pizza.setAttribute("scale", "1.5 1.5 1.5");
+            pizza.setAttribute("rotation", "90 0 0");
+      
+            thali.setAttribute("position", "-0.2 0.8 0");
+            thali.setAttribute("scale", "25 25 25");
+            thali.setAttribute("rotation", "90 0 0");
+          } else if (browser === "edge") {
+            console.log("Applying settings for Edge browser");
+            burger.setAttribute("position", "0 0.15 0");
+            burger.setAttribute("scale", "0.17 0.17 0.17");
+            burger.setAttribute("rotation", "0 0 0");
+      
+            noodle.setAttribute("position", "0 0.2 0");
+            noodle.setAttribute("scale", "3.6 3.6 3.6");
+            noodle.setAttribute("rotation", "0 0 0");
+      
+            pasta.setAttribute("position", "0 0.1 0");
+            pasta.setAttribute("scale", "0.6 0.6 0.6");
+            pasta.setAttribute("rotation", "0 0 0");
+      
+            pizza.setAttribute("position", "0 0.1 0");
+            pizza.setAttribute("scale", "1.6 1.6 1.6");
+            pizza.setAttribute("rotation", "0 0 0");
+      
+            thali.setAttribute("position", "-0.2 0.9 0");
+            thali.setAttribute("scale", "24 24 24");
+            thali.setAttribute("rotation", "0 0 0");
+          } else if (browser === "opera") {
+            console.log("Applying settings for Opera browser");
+            burger.setAttribute("position", "0 0.05 0");
+            burger.setAttribute("scale", "0.16 0.16 0.16");
+            burger.setAttribute("rotation", "0 0 0");
+      
+            noodle.setAttribute("position", "0 0.1 0");
+            noodle.setAttribute("scale", "3.9 3.9 3.9");
+            noodle.setAttribute("rotation", "0 0 0");
+      
+            pasta.setAttribute("position", "0 0.1 0");
+            pasta.setAttribute("scale", "0.68 0.68 0.68");
+            pasta.setAttribute("rotation", "0 0 0");
+      
+            pizza.setAttribute("position", "0 0.1 0");
+            pizza.setAttribute("scale", "3 3 3");
+            pizza.setAttribute("rotation", "0 0 0");
+      
+            thali.setAttribute("position", "-0.2 0.85 0");
+            thali.setAttribute("scale", "23 23 23");
+            thali.setAttribute("rotation", "0 0 0");
+          } else {
+            console.log("Browser not specifically handled:", browser);
+          }
+        });
+      </script>      
   </body>
 </html>
